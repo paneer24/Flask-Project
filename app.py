@@ -1,41 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
-from pymongo import MongoClient
-import os
-from dotenv import load_dotenv
-
-
-load_dotenv()
-MONGO_DB_URI =os.getenv("MONGO_DB_URI")
+from flask import Flask, jsonify, render_template
+import json
 
 app = Flask(__name__)
 
-
-client = MongoClient(MONGO_DB_URI)
-db = client["mydatabase"]
-collection = db["users"]
-
-@app.route("/", methods=["GET", "POST"])
+@app.route('/')
 def index():
-    error_message = None
+    return render_template('index.html')
 
-    if request.method == "POST":
-        name = request.form.get("name")
-        email = request.form.get("email")
+@app.route('/api', methods=['GET'])
+def get_data():
+    with open('data.json', 'r') as file:
+        data = json.load(file)
+    return jsonify(data)
 
-        if not name or not email:
-            error_message = "Both fields are required!"
-        else:
-            try:
-                collection.insert_one({"name": name, "email": email})
-                return redirect(url_for("success"))
-            except Exception as e:
-                error_message = f"Error: {str(e)}"
-
-    return render_template("index.html", error=error_message)
-
-@app.route("/success")
-def success():
-    return render_template("success.html")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
