@@ -7,9 +7,11 @@
 </head>
 <body>
     <h2>To-Do List</h2>
-    <form action="/submittodoitem" method="POST">
+    <!-- <form action="/submittodoitem" method="POST"> -->
       <label for="item_id">Item ID:</label>
       <input type="text" id="item_id" name="item_id" required><br>
+      <label for="item_uuid">Item UUID</label>
+      <input type="text" name="item_uuid" placeholder="Enter Item UUID">
         <button type="submit">Submit</button>
     </form>
 </body>
