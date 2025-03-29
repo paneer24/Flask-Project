@@ -1,17 +1,31 @@
-from flask import Flask, jsonify, render_template
-import json
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        form { display: inline-block; text-align: left; background: #f4f4f4; padding: 20px; border-radius: 10px; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h2>Submit Your Data</h2>
 
-app = Flask(__name__)
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+    <form method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
 
-@app.route('/api', methods=['GET'])
-def get_data():
-    with open('data.json', 'r') as file:
-        data = json.load(file)
-    return jsonify(data)
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
 
-if __name__ == '__main__':
-    app.run(debug=True)
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
